@@ -6,6 +6,8 @@ from logging import getLogger
 
 
 
+
+
 class Yellowfin(object):
     def __init__(self, server,
                  username="admin@yellowfin.com.au", password="test"):
@@ -45,14 +47,12 @@ class Yellowfin(object):
     @property
     def admin_url(self):
         """ The url for the admin-wsdl """
-        return '%s://%s/%s' % (self.prefix, self.admin_wsdl,
-                               self.yellowfin_server)
+        return '%s://%s/%s' % (self.prefix, self.yellowfin_server, self.admin_wsdl)
 
     @property
     def service_url(self):
         """ The url for the service-wsdl """
-        return '%s://%s/%s' % (self.prefix, self.report_wsdl,
-                               self.yellowfin_server)
+        return '%s://%s/%s' % (self.prefix, self.yellowfin_server, self.report_wsdl)
 
     def get_admin_service_request(self):
         asr = self.admin_client.factory.create('administrationServiceRequest')
@@ -101,6 +101,11 @@ class Yellowfin(object):
         session = self.login_user(username, password, orgref, params)
         return '%s/logon.i4?LoginWebserviceId=%s' % (self.user_url,
                                                      session.loginSessionId)
+
+    def get_all_users(self):
+        asr = self.get_admin_service_request()
+        asr.function = "GETALLUSERS"
+        return self.make_call(self.admin_client, asr)
 
     def login_user(self, username, password=None, orgref=None, params=None):
         asr = self.get_admin_service_request()
