@@ -102,6 +102,12 @@ class Yellowfin(object):
         return '%s/logon.i4?LoginWebserviceId=%s' % (self.user_url,
                                                      session.loginSessionId)
 
+    def get_user(self, user_id):
+        asr = self.get_admin_service_request()
+        asr.function = "GETUSER"
+        asr.person = self.get_person(user_id)
+        return self.make_call(self.admin_client, asr)
+
     def get_all_users(self):
         asr = self.get_admin_service_request()
         asr.function = "GETALLUSERS"
