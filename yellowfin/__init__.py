@@ -215,6 +215,12 @@ class Yellowfin(object):
         asr.function = "LISTGROUPS"
         return self.make_call(self.admin_client, asr)
 
+    # your instance of Yellowfin should have the Client Org functionality switched on for this
+    def list_clients(self):
+        asr = self.get_admin_service_request()
+        asr.function = "LISTCLIENTS"
+        return self.make_call(self.admin_client, asr)
+
     def get_group(self, group_name, orgref):
         asr = self.get_admin_service_request()
         asr.function = "GETGROUP"
