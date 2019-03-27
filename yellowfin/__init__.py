@@ -113,6 +113,19 @@ class Yellowfin(object):
         asr.function = "GETALLUSERS"
         return self.make_call(self.admin_client, asr)
 
+    def get_user_report(self, report_id, user_id):
+        asr = self.get_admin_service_request()
+        asr.function = "GETUSERREPORT"
+        asr.person = self.get_person(user_id)
+        asr.reportId = report_id
+        return self.make_call(self.admin_client, asr)
+
+    def get_all_user_reports(self, user_id):
+        asr = self.get_admin_service_request()
+        asr.function = "GETALLUSERREPORTS"
+        asr.person = self.get_person(user_id)
+        return self.make_call(self.admin_client, asr)
+
     def login_user(self, username, password=None, orgref=None, params=None):
         asr = self.get_admin_service_request()
         asr.person = self.get_person(username, password)
