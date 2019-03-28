@@ -73,6 +73,11 @@ class Yellowfin(object):
 
         return person
 
+    def get_person_by_ip(self, ip_id):
+        person = self.admin_client.factory.create('administrationPerson')
+        person.ipId = ip_id
+        return person
+
     def get_client(self, ref_id):
         client = self.admin_client.factory.create('administrationClientOrg')
         client.clientReferenceId = ref_id
@@ -106,6 +111,12 @@ class Yellowfin(object):
         asr = self.get_admin_service_request()
         asr.function = "GETUSER"
         asr.person = self.get_person(user_id)
+        return self.make_call(self.admin_client, asr)
+
+    def get_user_by_ip(self, ip_id):
+        asr = self.get_admin_service_request()
+        asr.function = "GETUSERBYIP"
+        asr.person = self.get_person_by_ip(ip_id)
         return self.make_call(self.admin_client, asr)
 
     def get_all_users(self):
